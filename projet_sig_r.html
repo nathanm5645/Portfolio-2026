@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projet SIG sous R | Nathan Moizard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Bouton retour -->
+  <a href="index.html" class="back-btn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"></line>
+      <polyline points="12 19 5 12 12 5"></polyline>
+    </svg>
+    Retour au portfolio
+  </a>
+
+  <!-- En-tête du projet -->
+  <header class="project-hero">
+    <h1>Projet SIG sous R</h1>
+    <p class="project-subtitle">Applications R Shiny interactives et étude cartographique QGIS | R Shiny, QGIS, Leaflet API</p>
+  </header>
+
+  <main class="container">
+    <!-- Section 1 : Présentation -->
+    <section class="section-detail">
+      <h2>Présentation du projet</h2>
+      
+      <!-- Technologies utilisées -->
+      <div class="skills-container">
+        <span class="skill-pill">R (Shiny / Shinydashboard)</span>
+        <span class="skill-pill">QGIS (Raster / Vecteur)</span>
+        <span class="skill-pill">Leaflet API & REST APIs</span>
+        <span class="skill-pill">Cartographie Thématique</span>
+        <span class="skill-pill">Analyse Spatiale</span>
+      </div>
+      
+      <!-- Informations projet -->
+      <div class="project-info">
+        <div class="info-card glass">
+          <h3>Type de projet</h3>
+          <p>Projets académiques et personnels (BUT Science des Données)</p>
+          <h4>Objectifs :</h4>
+          <p>Développer des applications décisionnelles géographiques dynamiques (R Shiny) et réaliser des analyses de télédétection spatialisées (QGIS).</p>
+        </div>
+        
+        <div class="info-card glass">
+          <h3>Livrables</h3>
+          <ul>
+            <li>Dashboard interactif R Shiny de suivi spatial</li>
+            <li>Dashboard interactif R Shiny d'analyse olympique</li>
+            <li>Couches géographiques et analyses d'enneigement sous QGIS</li>
+          </ul>
+        </div>
+        
+        <div class="info-card glass">
+          <h3>Outils principaux</h3>
+          <p><strong>RStudio:</strong> Packages Shiny, Shinydashboard, Leaflet, Plotly, Dplyr</p>
+          <p><strong>QGIS:</strong> Outils rasters, calculatrice de champs, symbologies</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2 : Présentation des Applications -->
+    <section class="section-detail">
+      <h2>Détails des Réalisations</h2>
+      
+      <div style="display: flex; flex-direction: column; gap: 50px; margin-top: 30px;">
+        
+        <!-- Application 1 -->
+        <div class="glass" style="padding: 30px; border-radius: var(--radius-lg);">
+          <h3 style="color: var(--primary); font-size: 1.4rem; margin-bottom: 15px;">🛰️ Application R Shiny : Suivi de l'ISS en Temps Réel</h3>
+          <div style="text-align: center; margin: 20px 0;">
+            <img src="Spatial projet.png" alt="Dashboard Suivi Spatial ISS Shiny" style="width: 100%; max-width: 900px; border-radius: var(--radius-md); border: 1px solid var(--border-color); box-shadow: var(--shadow);">
+          </div>
+          <p style="color: var(--text-muted); line-height: 1.6; font-size: 1rem; margin-top: 15px; background: rgba(255, 255, 255, 0.02); padding: 15px; border-left: 4px solid var(--primary); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;">
+            <strong>Description :</strong> Cette application permet de cartographier la position de la Station Spatiale Internationale (ISS) en temps réel avec des appels API toutes les 10 secondes. Elle intègre le calcul de la ligne jour/nuit (terminator) et le filtrage dynamique des bases de lancements spaciaux mondiaux.
+          </p>
+        </div>
+
+        <!-- Application 2 -->
+        <div class="glass" style="padding: 30px; border-radius: var(--radius-lg);">
+          <h3 style="color: var(--accent); font-size: 1.4rem; margin-bottom: 15px;">🏔️ Étude Cartographique QGIS : Évolution de l'enneigement en Isère</h3>
+          <div style="text-align: center; margin: 20px 0;">
+            <img src="neige_isere.png" alt="Cartes QGIS Perte de Neige en Isere" style="width: 100%; max-width: 900px; border-radius: var(--radius-md); border: 1px solid var(--border-color); box-shadow: var(--shadow);">
+          </div>
+          <p style="color: var(--text-muted); line-height: 1.6; font-size: 1rem; margin-top: 15px; background: rgba(255, 255, 255, 0.02); padding: 15px; border-left: 4px solid var(--accent); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;">
+            <strong>Description :</strong> Analyse spatiale de la couverture neigeuse en Isère sur deux périodes climatiques clés (1970-2000 vs. 2001-2023). La différence de rasters met en évidence une baisse significative de l'épaisseur moyenne de neige et du nombre de jours d'enneigement.
+          </p>
+        </div>
+
+        <!-- Application 3 -->
+        <div class="glass" style="padding: 30px; border-radius: var(--radius-lg);">
+          <h3 style="color: var(--success); font-size: 1.4rem; margin-bottom: 15px;">🏅 Application R Shiny : Carte des Médailles Olympiques</h3>
+          <div style="text-align: center; margin: 20px 0;">
+            <img src="Projet SIG JO.png" alt="Dashboard Shiny Medailles Olympiques" style="width: 100%; max-width: 900px; border-radius: var(--radius-md); border: 1px solid var(--border-color); box-shadow: var(--shadow);">
+          </div>
+          <p style="color: var(--text-muted); line-height: 1.6; font-size: 1rem; margin-top: 15px; background: rgba(255, 255, 255, 0.02); padding: 15px; border-left: 4px solid var(--success); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;">
+            <strong>Description :</strong> Tableau de bord interactif d'analyse historique des médailles olympiques par pays. Il comprend des filtres par continent, pays, saison (été/hiver) et sport, couplés à une représentation choroplèthe dynamique.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Section 3 : Bilan -->
+    <section class="section-detail">
+      <h2>Bilan du Projet</h2>
+      <div class="text-box glass">
+        <p>
+          Ce projet regroupe mes travaux sur les <strong>Systèmes d'Information Géographique (SIG)</strong> et la data-visualisation interactive. Il démontre ma capacité à croiser des données géospatiales complexes (formats vecteurs, rasters, géoréférencement) avec des interfaces web réactives pour l'aide à la décision.
+        </p>
+        <p>
+          La maîtrise de packages spécialisés sous R (Leaflet) couplée à l'analyse sous QGIS me permet de répondre à des problématiques variées de suivi d'actifs en mouvement, de diagnostic environnemental territorial ou de datavisualisation thématique.
+        </p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

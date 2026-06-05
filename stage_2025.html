@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suivi d'activité &amp; Indicateurs Qualiopi | Nathan Moizard</title>
+  <meta name="description" content="Stage de Nathan Moizard chez IGM (Orléans) : mise en place d'indicateurs Qualiopi et suivi d'activité de formation via SQL Server et MyReport.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+    .kpi-card {
+      padding: 25px 20px;
+      text-align: center;
+      border-radius: var(--radius-lg);
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+    .kpi-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-color-hover);
+      box-shadow: 0 15px 30px -10px rgba(99, 102, 241, 0.15);
+    }
+    .kpi-card .kpi-icon {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    .kpi-card .kpi-value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+    .kpi-card .kpi-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .timeline {
+      position: relative;
+      padding-left: 30px;
+      margin-top: 20px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 5px;
+      bottom: 5px;
+      width: 3px;
+      background: var(--primary-gradient);
+      border-radius: 2px;
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 28px;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -37px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary);
+      border: 2px solid var(--bg-deep);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+    }
+    .timeline-item h4 {
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    .timeline-item p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    .source-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(59, 130, 246, 0.08);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      color: #93c5fd;
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin: 3px;
+    }
+    .dashboard-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 25px;
+      margin-bottom: 20px;
+      transition: var(--transition);
+    }
+    .dashboard-section:hover {
+      border-color: var(--border-color-hover);
+      transform: translateX(5px);
+    }
+    .dashboard-section h4 {
+      color: #fff;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .dashboard-section p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+    .company-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+    @media (max-width: 768px) {
+      .company-card { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Bouton retour -->
+  <a href="index.html" class="back-btn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"></line>
+      <polyline points="12 19 5 12 12 5"></polyline>
+    </svg>
+    Retour au portfolio
+  </a>
+
+  <!-- En-tête du projet -->
+  <header class="project-hero">
+    <h1>Stage IGM — Suivi d'activité &amp; Indicateurs Qualiopi</h1>
+    <p class="project-subtitle">Stage de 12 semaines chez IGM (Orléans) | SQL Server, MyReport (Data, Page, Center), MCD</p>
+  </header>
+
+  <main class="container">
+
+    <!-- KPIs chiffrés -->
+    <section class="section-detail">
+      <h2>Le stage en chiffres</h2>
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon">📅</div>
+          <div class="kpi-value">12 sem.</div>
+          <div class="kpi-label">Durée du stage</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon">📊</div>
+          <div class="kpi-value">4,52 / 5</div>
+          <div class="kpi-label">Score de satisfaction global</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon">🛠️</div>
+          <div class="kpi-value">3</div>
+          <div class="kpi-label">Outils développés pour les commerciaux</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon">🏅</div>
+          <div class="kpi-value">Qualiopi</div>
+          <div class="kpi-label">Certification de formation consolidée</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Compétences mobilisées -->
+    <section class="section-detail">
+      <h2>Compétences mobilisées</h2>
+
+      <div class="skills-container">
+        <span class="skill-pill">SQL Server</span>
+        <span class="skill-pill">MyReport Data (Data Warehouse)</span>
+        <span class="skill-pill">MyReport Page (Visualisation)</span>
+        <span class="skill-pill">MyReport Center (Diffusion)</span>
+        <span class="skill-pill">Modélisation MCD</span>
+        <span class="skill-pill">Transact-SQL (T-SQL)</span>
+        <span class="skill-pill">Indicateurs Qualiopi</span>
+        <span class="skill-pill">Business Intelligence</span>
+      </div>
+
+      <div class="learned-items" style="margin-top: 40px;">
+        <div class="learned-item glass">
+          <h3>SQL Server &amp; MCD</h3>
+          <p>Co-construction d'un Modèle Conceptuel de Données (MCD) avec l'équipe pour restructurer la base SQL Server <code>IGM_SAFFRAN</code>. Écriture de requêtes et scripts d'importation de données.</p>
+        </div>
+        <div class="learned-item glass">
+          <h3>Data Warehousing (MyReport Data)</h3>
+          <p>Conception du Data Warehouse dans le module Data : jointures de tables, filtres complexes (projets finalisés d'au moins 1 mois), et création de tables d'analyses temporelles (Calendrier).</p>
+        </div>
+        <div class="learned-item glass">
+          <h3>Création de Reporting (MyReport Page)</h3>
+          <p>Développement de maquettes de tableaux de bord interactifs basés sur une grille, avec intégration d'onglets, de filtres dynamiques multiniveaux, de graphiques et d'indicateurs synthétiques.</p>
+        </div>
+        <div class="learned-item glass">
+          <h3>Normes Qualiopi</h3>
+          <p>Compréhension des indicateurs obligatoires liés à la qualité de la formation professionnelle : taux de retour, progression des acquis, satisfaction stagiaires, donneurs d'ordres et formateurs.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Présentation de l'entreprise -->
+    <section class="section-detail">
+      <h2>Présentation de l'entreprise</h2>
+      <div class="company-card">
+        <div class="text-box glass" style="margin: 0;">
+          <p><strong>🏢 IGM — Informatique Gestion Management</strong></p>
+          <p>ESN (Entreprise de Services Numériques) fondée en <strong>1993</strong>, basée à <strong>Saran (Loiret, 45)</strong>, au cœur de la métropole d'Orléans. En 2022, IGM s'est rapprochée de <em>Havana IT & Apps</em> pour former un nouveau groupe (holding NIRVANA).</p>
+          <p>L'entreprise compte une <strong>cinquantaine de salariés</strong> et propose une large gamme de services informatiques et décisionnels.</p>
+          <p>Membre de <em>Fastor GIE</em>, du <em>GEP45</em>, de la <em>Digital Loire Valley</em> et de l'<em>ADIRC</em>.</p>
+        </div>
+        <div class="text-box glass" style="margin: 0;">
+          <p><strong>🛠️ Services &amp; Formations</strong></p>
+          <ul>
+            <li><strong>Forfait, Régie &amp; TMA</strong> : développement d'applications, intégration BI et bases de données.</li>
+            <li><strong>Organisme de formation</strong> : certifié <strong>Qualiopi</strong> depuis 2021 dans la catégorie « Actions de formation » (formations MyReport, Power BI, SQL Server, Visual Studio, etc.).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contexte du projet -->
+    <section class="section-detail">
+      <h2>Contexte &amp; Problématique</h2>
+      <div class="text-box glass">
+        <p><strong>Situation initiale :</strong> IGM dispense de nombreuses formations certifiées Qualiopi. Le suivi des évaluations (questionnaire de pré-formation, QCM final d'acquisition des connaissances, évaluation de satisfaction à chaud et à froid) était auparavant géré via Microsoft Forms et compilé manuellement. Ce processus limitait l'analyse centralisée et compliquait le renouvellement annuel de la certification Qualiopi (nécessaire pour le financement des OPCO).</p>
+        <p><strong>Ma mission :</strong> Structurer l'ensemble des données d'évaluation dans SQL Server et concevoir des tableaux de bord automatisés et sécurisés via MyReport pour fournir aux commerciaux et à la direction des indicateurs d'activité précis, conformes aux exigences de Qualiopi.</p>
+        <p><strong>Synergie d'équipe :</strong> Collaboration étroite avec Antonin (développement de la gestion interne Saffran) et Anthony (développement de l'interface de saisie stagiaire) pour assurer une chaîne de données fluide de la saisie au reporting.</p>
+      </div>
+    </section>
+
+    <!-- Architecture technique -->
+    <section class="section-detail">
+      <h2>Architecture technique &amp; Modélisation</h2>
+
+      <div class="project-info">
+        <div class="info-card glass">
+          <h3>SQL Server (Base Saffran)</h3>
+          <p>Centralisation des tables d'évaluation et de gestion : <code>TrainingUser</code> (participants), <code>Tutor</code> (formateurs), <code>Project</code> (projets de formation), <code>Form</code> (questionnaires) et <code>Question</code>. Importation et préparation des données historiques pour réaliser des tests viables.</p>
+        </div>
+
+        <div class="info-card glass">
+          <h3>MyReport Data (ETL)</h3>
+          <p>Création d'un Data Warehouse avec jointures (Internes et Gauches). Traitement de la localisation géographique en extrayant les départements et régions depuis le code postal. Modélisation temporelle avec extraction textuelle des mois de l'année.</p>
+        </div>
+
+        <div class="info-card glass">
+          <h3>MyReport Page &amp; Center</h3>
+          <p>Conception d'une structure visuelle en onglets sous forme de grille adaptative. Organisation de filtres dynamiques (Année, Semestre, Mois, Client, Tuteur) et publication sur l'intranet de l'entreprise via MyReport Center.</p>
+        </div>
+      </div>
+
+      <div class="text-box glass" style="margin-top: 10px;">
+        <p><strong>Règles de gestion implémentées :</strong> Pour s'assurer de la pertinence des KPIs, des filtres restrictifs ont été appliqués dans le data warehouse : exclusion des projets de formation de moins d'un mois (encore en cours de modification) et filtrage des projets n'ayant pas de formateur ou de type de formation associés.</p>
+      </div>
+    </section>
+
+    <!-- Tableaux de bord réalisés -->
+    <section class="section-detail">
+      <h2>Indicateurs &amp; Tableaux de bord conçus</h2>
+      <p style="color: var(--text-muted); margin-bottom: 30px;">Trois axes décisionnels principaux ont été formalisés au sein du dossier thématique "Acteurs" :</p>
+
+      <div class="dashboard-section">
+        <h4>👥 Reporting Participants (Saisie, Progression &amp; Acquis)</h4>
+        <p>Suivi exhaustif du volume de stagiaires (132 au total). Visualisation des taux de complétion des formulaires (évaluation pré-formation, satisfaction, évaluation des connaissances). Analyse de la validation des acquis via les QCM de fin de formation (le taux de présence de 100% étant requis pour la validation finale).</p>
+      </div>
+
+      <div class="dashboard-section">
+        <h4>⭐ Reporting Satisfaction (Qualiopi)</h4>
+        <p>Consolidation des réponses aux enquêtes notées sur 5. Calcul de la moyenne de satisfaction globale par formation (ex: score de 4,52/5) et décomposition par question (accueil, pédagogie, compétences techniques, qualité du support, écoute du formateur).</p>
+      </div>
+
+      <div class="dashboard-section">
+        <h4>🏫 Pilotage des Formations &amp; Formateurs</h4>
+        <p>Analyse de la répartition des participants selon les modules. Mise en valeur de la formation combinée <em>"MyReport Builder 1 et 2"</em> qui regroupe près de 40% des effectifs, confirmant la préférence des clients pour un apprentissage complet plutôt que par module isolé (Builder 1 ou Builder 2 seuls, représentant ~4% chacun).</p>
+      </div>
+    </section>
+
+    <!-- Visuels du stage 2025 -->
+    <section class="section-detail">
+      <h2>Visuels du stage 2025</h2>
+      <div class="proofs-panel glass" style="width: 100%; max-width: 1200px; margin: 0 auto; padding: 30px;">
+        
+        <div style="margin-bottom: 40px;">
+          <h4 style="border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px; color: #fff;">
+            Maquette de l'interface de reporting — Conception initiale du gabarit de dashboard
+          </h4>
+          <img src="stage_2025_img1.png" alt="Maquette de l'interface de reporting IGM" class="proof-image" style="width: 100%; max-height: none; margin: 0; display: block; border-radius: var(--radius-md);">
+          <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 15px; line-height: 1.6;">
+            <strong>Maquette de l'interface de reporting</strong> — Conception initiale du gabarit de dashboard dans PowerPoint/MyReport, définissant l'emplacement des filtres (période, type de formulaire), le nombre d'enquêtes, la durée moyenne et les taux de remplissage.
+          </p>
+        </div>
+
+        <div>
+          <h4 style="border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px; color: #fff;">
+            Dashboard de satisfaction final sous MyReport Page — Vue de synthèse interactive
+          </h4>
+          <img src="stage_2025_img2.jpg" alt="Dashboard de satisfaction final sous MyReport Page" class="proof-image" style="width: 100%; max-height: none; margin: 0; display: block; border-radius: var(--radius-md);">
+          <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 15px; line-height: 1.6;">
+            <strong>Dashboard de satisfaction final sous MyReport Page</strong> — Vue de synthèse interactive présentant le score global de satisfaction (4,52/5), le volume de participants (132), le taux de remplissage par formulaire et la répartition des effectifs par formation.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Planning -->
+    <section class="section-detail">
+      <h2>Déroulement du stage</h2>
+      <div class="text-box glass" style="margin-bottom: 30px;">
+        <p>Le projet s'est articulé sur 12 semaines en intégrant des phases de modélisation de base de données, d'ETL et de mise en page graphique.</p>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <h4>Phase 1 — Cadrage &amp; Prise en main (Semaines 1-2)</h4>
+          <p>Prise en main des outils (SQL Server, MyReport, Saffran). Compréhension des indicateurs requis par Qualiopi. Définition du besoin avec le Directeur Commercial et établissement du cahier des charges.</p>
+        </div>
+        <div class="timeline-item">
+          <h4>Phase 2 — Modélisation SQL &amp; Saisie (Semaines 3-5)</h4>
+          <p>Co-conception du Modèle Conceptuel de Données. Importation et préparation des données de test. Rédaction de scripts Transact-SQL pour peupler et restructurer les tables de la base Saffran.</p>
+        </div>
+        <div class="timeline-item">
+          <h4>Phase 3 — Modélisation du Data Warehouse (Semaines 6-8)</h4>
+          <p>Construction du Data Warehouse sous MyReport Data. Définition des règles de filtrage (projets de type formation de plus d'un mois), modélisation calendaire personnalisée et jointures relationnelles.</p>
+        </div>
+        <div class="timeline-item">
+          <h4>Phase 4 — Conception des Rapports &amp; Livraison (Semaines 9-12)</h4>
+          <p>Création des rapports sous MyReport Page. Intégration des graphiques (circulaires, histogrammes, KPI cards). Phase de debug collaboratif pour l'ajustement ergonomique de la saisie. Rédaction du guide d'actualisation des données et livraison finale.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bilan -->
+    <section class="section-detail">
+      <h2>Bilan &amp; Perspectives</h2>
+      <div class="text-box glass">
+        <p><strong>Apports pour l'entreprise :</strong></p>
+        <ul>
+          <li>Centralisation et sécurisation des retours de formation dans SQL Server.</li>
+          <li>Reporting Qualiopi entièrement automatisé et actualisable en un clic pour les audits.</li>
+          <li>Meilleure visibilité commerciale sur les formations plébiscitées (forte demande pour Builder 1 et 2).</li>
+          <li>Simplification de la saisie des formulaires pour les commerciaux et formateurs grâce au debug collaboratif.</li>
+        </ul>
+        <p style="margin-top: 15px;"><strong>Apports personnels :</strong></p>
+        <p>Ce stage m'a offert une immersion complète dans le cycle de vie d'un projet décisionnel (BI), depuis la modélisation de base de données (MCD) jusqu'au déploiement intranet. J'ai renforcé mes compétences en SQL et découvert les contraintes réglementaires de la formation professionnelle (Qualiopi).</p>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>

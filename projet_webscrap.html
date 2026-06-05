@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bot de Web Scraping | Nathan Moizard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Bouton retour -->
+  <a href="index.html" class="back-btn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"></line>
+      <polyline points="12 19 5 12 12 5"></polyline>
+    </svg>
+    Retour au portfolio
+  </a>
+
+  <!-- En-tête du projet -->
+  <header class="project-hero">
+    <h1>Bot de Web Scraping</h1>
+    <p class="project-subtitle">Développement d'un bot d'extraction de données produits et stockage MySQL | Python, Selenium, MySQL, ETL</p>
+  </header>
+
+  <main class="container">
+    <!-- Section 1 : Présentation -->
+    <section class="section-detail">
+      <h2>Présentation du projet</h2>
+      
+      <!-- Stack technique -->
+      <h3 style="color: var(--primary); margin-bottom: 15px;">Technologies utilisées</h3>
+      <div class="tech-stack">
+        <span class="tech-item">Python</span>
+        <span class="tech-item">BeautifulSoup</span>
+        <span class="tech-item">Selenium</span>
+        <span class="tech-item">MySQL</span>
+        <span class="tech-item">Pandas</span>
+        <span class="tech-item">ETL</span>
+      </div>
+      
+      <!-- Apprentissages -->
+      <h3 style="color: var(--primary); margin: 40px 0 20px; text-align: center;">Acquis techniques</h3>
+      <div class="learned-items">
+        <div class="learned-item glass">
+          <h3>Web Scraping avancé</h3>
+          <p>Maîtrise des techniques d'extraction de données depuis des sites web complexes avec gestion des anti-scraping.</p>
+        </div>
+        <div class="learned-item glass">
+          <h3>Automatisation ETL</h3>
+          <p>Conception d'un pipeline complet d'extraction, transformation et chargement des données.</p>
+        </div>
+        <div class="learned-item glass">
+          <h3>Gestion de bases MySQL</h3>
+          <p>Optimisation des opérations CRUD et conception du schéma de base de données.</p>
+        </div>
+        <div class="learned-item glass">
+          <h3>Traitement des données</h3>
+          <p>Nettoyage et normalisation des données extraites pour garantir leur qualité.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2 : Contexte -->
+    <section class="section-detail">
+      <h2>Contexte du projet</h2>
+      <div class="text-box glass">
+        <p>Ce projet consistait à développer un outil complet pour extraire les informations produits (nom, prix, caractéristiques) du site Darty et les stocker dans une base de données MySQL pour analyse ultérieure.</p>
+        
+        <p>Les défis techniques principaux :</p>
+        <ul>
+          <li>Contournement des protections anti-scraping du site.</li>
+          <li>Gestion des variations de structure entre pages produits.</li>
+          <li>Extraction robuste et fiable des données cibles.</li>
+        </ul>
+        
+        <p>L'architecture technique comprenait :</p>
+        <ul>
+          <li>Un module d'extraction avec BeautifulSoup et Selenium.</li>
+          <li>Un ETL de transformation en Python.</li>
+          <li>Un système de stockage MySQL.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Section 3 : Résultats -->
+    <section class="section-detail">
+      <h2>Résultats et Preuves</h2>
+      <div class="results-grid">
+        <div class="text-box glass">
+          <p>L'outil final permettait :</p>
+          <ul>
+            <li>L'extraction de 1000+ produits/heure avec un taux de succès >95%.</li>
+            <li>Le stockage structuré dans une base MySQL avec historique des prix.</li>
+          </ul>
+          
+          <p><strong>Bilan personnel :</strong></p>
+          <p>Ce projet m'a permis de perfectionner mes scripts d'automatisation en Python avec Selenium. J'ai renforcé mes compétences sur la gestion de requêtes HTTP robustes, la conception de bases de données relationnelles MySQL et la mise en œuvre de traitements ETL (Extraction, Transformation, Chargement) de données complexes.</p>
+        </div>
+        <div class="proofs-panel glass">
+          <h4>Preuves du projet</h4>
+          <p><strong>Preuve 1 : Console d'extraction et Base MySQL</strong></p>
+          <img src="projet_webscrap_preview.png" alt="Console Python et base de données MySQL" class="proof-image">
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

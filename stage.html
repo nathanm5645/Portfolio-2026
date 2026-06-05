@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableaux de bord de pilotage financier | Nathan Moizard</title>
+  <meta name="description" content="Stage de Nathan Moizard chez IGM (Orléans) : mise en place de tableaux de bord de pilotage financier avec Power BI, APIs REST et ETL.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+    .kpi-card {
+      padding: 25px 20px;
+      text-align: center;
+      border-radius: var(--radius-lg);
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+    .kpi-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-color-hover);
+      box-shadow: 0 15px 30px -10px rgba(99, 102, 241, 0.15);
+    }
+    .kpi-card .kpi-icon {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    .kpi-card .kpi-value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+    .kpi-card .kpi-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .timeline {
+      position: relative;
+      padding-left: 30px;
+      margin-top: 20px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 5px;
+      bottom: 5px;
+      width: 3px;
+      background: var(--primary-gradient);
+      border-radius: 2px;
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 28px;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -37px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary);
+      border: 2px solid var(--bg-deep);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+    }
+    .timeline-item h4 {
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    .timeline-item p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    .source-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(59, 130, 246, 0.08);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      color: #93c5fd;
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin: 3px;
+    }
+    .dashboard-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 25px;
+      margin-bottom: 20px;
+      transition: var(--transition);
+    }
+    .dashboard-section:hover {
+      border-color: var(--border-color-hover);
+      transform: translateX(5px);
+    }
+    .dashboard-section h4 {
+      color: #fff;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .dashboard-section p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+    .company-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+    @media (max-width: 768px) {
+      .company-card { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Bouton retour -->
+  <a href="index.html" class="back-btn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"></line>
+      <polyline points="12 19 5 12 12 5"></polyline>
+    </svg>
+    Retour au portfolio
+  </a>
+
+  <!-- En-tête du projet -->
+  <header class="project-hero">
+    <h1>Mise en place de tableaux de bord de pilotage financier</h1>
+    <p class="project-subtitle">Stage de 12 semaines chez IGM (Orléans) | Power BI, APIs REST, ETL, DAX</p>
+  </header>
+
+  <main class="container">
+
+    <!-- KPIs chiffrés -->
+    <section class="section-detail">
+      <h2>Le stage en chiffres</h2>
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon">📅</div>
+          <div class="kpi-value">12 sem.</div>
+          <div class="kpi-label">Durée du stage</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon">📊</div>
+          <div class="kpi-value">5</div>
+          <div class="kpi-label">Tableaux de bord créés</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon">🔌</div>
+          <div class="kpi-value">3</div>
+          <div class="kpi-label">Sources de données connectées</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon">⚡</div>
+          <div class="kpi-value">Semi-auto</div>
+          <div class="kpi-label">Reporting semi-automatisé</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Compétences mobilisées -->
+    <section class="section-detail">
+      <h2>Compétences mobilisées</h2>
+
+      <div class="skills-container">
+        <span class="skill-pill">Power BI</span>
+        <span class="skill-pill">DAX</span>
+        <span class="skill-pill">Power Query (ETL)</span>
+        <span class="skill-pill">API REST</span>
+        <span class="skill-pill">Amazon Redshift (SQL)</span>
+        <span class="skill-pill">Business Intelligence</span>
+        <span class="skill-pill">KPI & Reporting</span>
+      </div>
+
+      <div class="learned-items" style="margin-top: 40px;">
+        <div class="learned-item glass">
+          <h3>Power BI & DAX</h3>
+          <p>Création de rapports dynamiques multi-pages avec formules DAX avancées (DSO, agrégations conditionnelles, mesures calendaires).</p>
+        </div>
+        <div class="learned-item glass">
+          <h3>API REST & ETL</h3>
+          <p>Connexion et extraction de données depuis les APIs de BoondManager et Pennylane (Amazon Redshift) via Power Query.</p>
+        </div>
+        <div class="learned-item glass">
+          <h3>Modélisation BI</h3>
+          <p>Architecture en mode Import avec moteur VertiPaq, centralisation des transformations dans Power Query pour optimiser les performances.</p>
+        </div>
+        <div class="learned-item glass">
+          <h3>Gestion & Comptabilité</h3>
+          <p>Découverte des processus financiers d'une ESN : facturation, trésorerie, délais de paiement (DSO), chiffre d'affaires, suivi des régiés.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Présentation de l'entreprise -->
+    <section class="section-detail">
+      <h2>Présentation de l'entreprise</h2>
+      <div class="company-card">
+        <div class="text-box glass" style="margin: 0;">
+          <p><strong>🏢 IGM — Informatique Gestion Management</strong></p>
+          <p>ESN (Entreprise de Services Numériques) fondée en <strong>1993</strong>, basée à <strong>Saran (Loiret, 45)</strong>, au cœur de la métropole d'Orléans. En 2022, IGM s'est rapprochée de <em>Havana IT & Apps</em> pour former un nouveau groupe (holding NIRVANA).</p>
+          <p>L'entreprise compte une <strong>trentaine de salariés</strong> et réalise un chiffre d'affaires d'environ <strong>6 millions d'euros annuels</strong>.</p>
+          <p>Membre de <em>Fastor GIE</em>, du <em>GEP45</em> et de la <em>Digital Loire Valley</em>.</p>
+        </div>
+        <div class="text-box glass" style="margin: 0;">
+          <p><strong>🛠️ Services proposés</strong></p>
+          <ul>
+            <li><strong>Forfait</strong> : projets au périmètre défini, développement depuis le centre de Saran.</li>
+            <li><strong>Régie</strong> : consultants IGM en mission chez le client.</li>
+            <li><strong>TMA</strong> : Tierce Maintenance Applicative (corrective, évolutive, préventive).</li>
+            <li><strong>Formations Qualiopi</strong> : certifiée depuis 2021 (logiciel MyReport).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contexte du projet -->
+    <section class="section-detail">
+      <h2>Contexte & Problématique</h2>
+      <div class="text-box glass">
+        <p><strong>Situation initiale :</strong> Les tableaux de bord financiers d'IGM étaient entièrement réalisés sur <strong>Excel</strong>, avec des exports manuels depuis les logiciels de gestion (Pennylane, BoondManager, Saffran). Ce processus était <strong>très chronophage</strong>, sujet aux erreurs de saisie et difficile à maintenir.</p>
+        <p><strong>Outils de gestion utilisés chez IGM :</strong></p>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin: 15px 0;">
+          <span class="source-badge">🔵 Pennylane — Comptabilité &amp; facturation</span>
+          <span class="source-badge">🟠 BoondManager — Gestion de projets &amp; RH</span>
+          <span class="source-badge">🟢 Saffran — Projets forfait &amp; pointage</span>
+          <span class="source-badge">🔴 Silae — Gestion des paies</span>
+        </div>
+        <p><strong>Ma mission :</strong> Créer un système de <strong>reporting semi-automatisé</strong> sous Power BI, connecté aux APIs des logiciels de gestion, pour fournir à la direction des KPI fiables et actualisés en temps réel — sans ressaisie manuelle.</p>
+        <p><strong>Enjeu futur :</strong> Les tableaux de bord pourront être étendus aux deux autres entités du groupe (Havana IT & Apps et NIRVANA) selon les besoins.</p>
+      </div>
+    </section>
+
+    <!-- Architecture technique -->
+    <section class="section-detail">
+      <h2>Architecture technique & Sources de données</h2>
+
+      <div class="project-info">
+        <div class="info-card glass">
+          <h3>Pennylane</h3>
+          <p>Connexion <strong>Direct Connect</strong> vers un cluster <strong>Amazon Redshift</strong> (lecture seule). Extraction du grand livre (<code>general_ledger</code>) et de la balance générale (<code>trial_balance</code>) pour les calculs de trésorerie et de résultat.</p>
+          <p style="margin-top: 10px; font-size: 0.85rem; color: var(--text-muted);">⚠️ Limite : les données au-delà de 2 ans nécessitent l'import du FEC (Fichier des Écritures Comptables).</p>
+        </div>
+
+        <div class="info-card glass">
+          <h3>BoondManager</h3>
+          <p>API REST avec authentification <strong>Basic Auth</strong> (email + mot de passe encodé en base 64). Création d'une <strong>fonction Power Query réutilisable</strong> pour simplifier l'import de chaque table.</p>
+          <p style="margin-top: 10px; font-size: 0.85rem; color: var(--text-muted);">Tables : Resources, Orders, Projects, Companies, Invoices, Times, Times-reports, Delivery</p>
+        </div>
+
+        <div class="info-card glass">
+          <h3>Saffran & Excel</h3>
+          <p>Saffran utilisé uniquement pour les données du <strong>Bilan Pédagogique</strong> (table <em>Bill</em>). Un fichier Excel complémentaire permet la saisie des données non accessibles via API (reports à nouveau, collaborateurs, produits/charges).</p>
+        </div>
+      </div>
+
+      <div class="text-box glass" style="margin-top: 10px;">
+        <p><strong>Choix d'architecture :</strong> Mode <strong>Import (VertiPaq)</strong> — les données sont compressées en mémoire pour garantir une réactivité optimale des visuels. L'ensemble de l'ETL (typage, concaténations, jointures) est centralisé dans <strong>Power Query</strong> pour faciliter la maintenance et optimiser la compression colonne.</p>
+      </div>
+    </section>
+
+    <!-- Visuels du stage 2026 -->
+    <section class="section-detail">
+      <h2>Visuels des tableaux de bord réalisés</h2>
+      <div class="proofs-panel glass" style="width: 100%; max-width: 1200px; margin: 0 auto; padding: 30px;">
+        
+        <div style="margin-bottom: 40px;">
+          <h4 style="border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px; color: #fff;">
+            Diagramme de Gantt — Planification du stage
+          </h4>
+          <img src="stage_gantt.png" alt="Diagramme de Gantt — Planning du stage IGM" class="proof-image" style="width: 100%; max-height: none; margin: 0; display: block; border-radius: var(--radius-md);">
+          <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 15px; line-height: 1.6;">
+            <strong>Planification :</strong> Suivi prévisionnel et réel du planning de stage sur les 12 semaines d'implication.
+          </p>
+        </div>
+
+        <div style="margin-bottom: 40px;">
+          <h4 style="border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px; color: #fff;">
+            Dashboard Trésorerie — Suivi consolidé des entités (IGM, HAVANA, NIRVANA)
+          </h4>
+          <img src="stage_tresorerie.png" alt="Tableau de bord Trésorerie Power BI IGM" class="proof-image" style="width: 100%; max-height: none; margin: 0; display: block; border-radius: var(--radius-md);">
+          <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 15px; line-height: 1.6;">
+            <strong>Dashboard Trésorerie :</strong> Suivi du solde consolidé des 3 entités du groupe avec évolution mensuelle des entrées/sorties. Solde au 31/12/2025 : <strong>678 757 €</strong>.
+          </p>
+        </div>
+
+        <div style="margin-bottom: 40px;">
+          <h4 style="border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px; color: #fff;">
+            Tableau de bord général (Vue de synthèse)
+          </h4>
+          <img src="stage_general.png" alt="Tableau de bord général IGM" class="proof-image" style="width: 100%; max-height: none; margin: 0; display: block; border-radius: var(--radius-md);">
+          <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 15px; line-height: 1.6;">
+            <strong>Vue Synthèse :</strong> Indique les chiffres d'affaires HT et TTC facturés, les encours clients et fournisseurs, et le suivi global de l'activité.
+          </p>
+        </div>
+
+        <div>
+          <h4 style="border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px; color: #fff;">
+            Dashboard Chiffre d'affaires — Répartition sectorielle
+          </h4>
+          <img src="stage_ca.png" alt="Tableau de bord Chiffre d'affaires Power BI IGM" class="proof-image" style="width: 100%; max-height: none; margin: 0; display: block; border-radius: var(--radius-md);">
+          <p style="font-size: 0.95rem; color: var(--text-muted); margin-top: 15px; line-height: 1.6;">
+            <strong>Analyse CA :</strong> Répartition du chiffre d'affaires par secteur d'activité (industrie, commerce, services) et suivi des évolutions par mois et années.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Planning -->
+    <section class="section-detail">
+      <h2>Déroulement du stage</h2>
+      <div class="text-box glass" style="margin-bottom: 30px;">
+        <p>Un <strong>diagramme de Gantt</strong> a été établi avant le début du stage pour cadrer les phases du projet. Il a globalement été respecté sur les 12 semaines.</p>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <h4>Phase 1 — Prise en main & Diagnostic (semaines 1-2)</h4>
+          <p>Intégration dans le service comptable. Découverte des outils existants (Pennylane, BoondManager, Saffran). Test initial de MyReport (abandonné). Identification des besoins et définition du périmètre des KPI.</p>
+        </div>
+        <div class="timeline-item">
+          <h4>Phase 2 — Connexion aux sources de données (semaines 3-4)</h4>
+          <p>Mise en place des connexions API (Pennylane via Amazon Redshift, BoondManager via REST). Création des fonctions Power Query réutilisables. Construction du modèle de données (mode Import, ETL centralisé).</p>
+        </div>
+        <div class="timeline-item">
+          <h4>Phase 3 — Développement des tableaux de bord (semaines 5-10)</h4>
+          <p>Développement itératif des 5 tableaux de bord thématiques. Tests sur base de données de recette avant bascule en production. Formules DAX avancées (DSO, scores de risque, agrégations conditionnelles).</p>
+        </div>
+        <div class="timeline-item">
+          <h4>Phase 4 — Documentation & Livraison (semaines 11-12)</h4>
+          <p>Rédaction d'une documentation technique complète (guide d'utilisation, schémas relationnels en annexe). Présentation à la direction et aux utilisateurs finaux (comptable, assistante d'agence, commerciaux). Livraison des fichiers Power BI.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bilan -->
+    <section class="section-detail">
+      <h2>Bilan & Perspectives</h2>
+      <div class="text-box glass">
+        <p><strong>Apports pour l'entreprise :</strong></p>
+        <ul>
+          <li>Élimination des saisies manuelles chronophages sur Excel.</li>
+          <li>KPI fiables et actualisés disponibles en quelques clics.</li>
+          <li>Meilleure visibilité sur la trésorerie, les délais de paiement (DSO) et la rentabilité par commercial.</li>
+          <li>Détection automatique des anomalies de synchronisation entre BoondManager et Pennylane.</li>
+          <li>Extensible aux entités Havana IT & Apps et NIRVANA si nécessaire.</li>
+        </ul>
+        <p style="margin-top: 15px;"><strong>Apports personnels :</strong></p>
+        <p>Ce stage m'a permis d'approfondir Power BI et l'intégration via APIs REST dans un contexte professionnel réel. J'ai découvert la comptabilité et la gestion d'une ESN, et renforcé ma capacité à concevoir des solutions de BI adaptées aux besoins métier.</p>
+        <p>Cette expérience confirme mon intérêt pour me spécialiser dans la cartographie et l'analyse spatiale.</p>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>
